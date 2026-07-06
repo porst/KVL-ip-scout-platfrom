@@ -5,6 +5,10 @@
 ## 技術棧
 
 - **前端**：React 18 + Vite + Tailwind CSS v4，React Router SPA
+- **設計系統**：shadcn/ui 風格元件（Card / Badge / Button / Dialog，基於 Radix + cva），
+  北歐簡約調性——燕麥米白底（#FAF7F2）、鼠尾草綠主色（#6B8E7F）、陶土橘點綴（#C97D5D）、
+  莫蘭迪色系 badge；標題 Space Grotesk、內文 Inter（@fontsource 自託管）
+- **頭像**：unavatar.io 抓 IG 頭像，失敗時以姓名縮寫圓形頭像備援
 - **資料庫**：Supabase（`candidates` 表，讀寫皆透過 Publishable key）
 - **即時更新**：Supabase Realtime 訂閱 + 10 秒 polling 備援（Realtime replication 未開啟也能運作）
 - **評分觸發**：Vercel Serverless Function `/api/trigger-scoring` → Claude Code Routine fire API
@@ -63,7 +67,7 @@ src/
 點任一張卡片進入詳情頁：八個維度的評分長條圖、AI 給的 Team Brief 和建議下一步、商業與權利資訊。如果這位插畫師有已知代理商，頁面會用黃色框特別標示「需透過代理談判」。
 
 **✅ 做決策**
-在詳情頁最下方「團隊決策」區塊：選擇新狀態（已入選、洽談中、已簽約⋯）、寫下決策備註、填上自己的名字，按「儲存決策」就會直接更新資料庫，大家都看得到。
+在詳情頁最下方「團隊決策」區塊：選擇新狀態（已入選、洽談中、已簽約⋯）、寫下決策備註、填上自己的名字，按「儲存決策」就會直接更新資料庫，大家都看得到。確定不需要的候選人可以按紅色「刪除此候選」（會再確認一次才真的刪除，刪掉就無法復原，請謹慎使用）。
 
 **➕ 推薦新人選**
 點右上角「＋ 加入候選」，填 IG handle（可以直接貼 IG 網址）、相關連結、備注和你的名字後送出。系統會自動觸發 AI 評分，幾分鐘後評分完成，候選牆上就會出現完整的候選卡，不用重新整理頁面。

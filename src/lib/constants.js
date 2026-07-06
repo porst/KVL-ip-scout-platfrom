@@ -1,25 +1,37 @@
+// 配色原則：低飽和莫蘭迪色系，呼應 high-whitespace / cozy-healing 的美學方向。
+
 // 評級 badge：五種 rating 的顏色與中文標籤
 export const RATING_META = {
-  PRIORITY: { label: '優先接觸', badge: 'bg-emerald-100 text-emerald-800 ring-emerald-200' },
-  QUALIFIED: { label: '合格', badge: 'bg-blue-100 text-blue-800 ring-blue-200' },
-  WATCH: { label: '觀察', badge: 'bg-amber-100 text-amber-800 ring-amber-200' },
-  PASS: { label: '暫不考慮', badge: 'bg-neutral-200 text-neutral-600 ring-neutral-300' },
-  DISQUALIFIED: { label: '不符資格', badge: 'bg-red-100 text-red-700 ring-red-200' },
+  PRIORITY: { label: '優先接觸', badge: 'bg-sage-100 text-sage-800 ring-sage-200' },
+  QUALIFIED: { label: '合格', badge: 'bg-[#e2e9ef] text-[#40566b] ring-[#c9d6e2]' },
+  WATCH: { label: '觀察', badge: 'bg-[#f2ead3] text-[#79662e] ring-[#e2d5ad]' },
+  PASS: { label: '暫不考慮', badge: 'bg-oat-200 text-stone-500 ring-oat-400' },
+  DISQUALIFIED: { label: '不符資格', badge: 'bg-brick-50 text-brick-700 ring-brick-100' },
 }
 
 export const RATING_ORDER = ['PRIORITY', 'QUALIFIED', 'WATCH', 'PASS', 'DISQUALIFIED']
 
+// IP 錨點類型：莫蘭迪色 badge（候選牆與詳情頁共用）
+export const ANCHOR_META = {
+  character: { label: '角色 IP', badge: 'bg-[#e4e9ee] text-[#4a5b6b] ring-[#ccd6df]' }, // 藍灰
+  style: { label: '風格 IP', badge: 'bg-[#e9e5ee] text-[#5d5468] ring-[#d6cede]' }, // 紫灰
+  service: { label: '服務接案', badge: 'bg-[#ece7e1] text-[#6b6259] ring-[#dad2c8]' }, // 暖灰
+  incubation: { label: '孵化潛力', badge: 'bg-[#f0e8d0] text-[#7a6a33] ring-[#e0d3a9]' }, // 芥末黃
+}
+
+export const ANCHOR_FALLBACK = { label: null, badge: 'bg-oat-200 text-stone-500 ring-oat-400' }
+
 // 狀態：資料庫允許值 + 中文標籤（scoring 為評分中的暫時狀態）
 export const STATUS_META = {
-  scoring: { label: '評分中', dot: 'bg-violet-500', chip: 'bg-violet-50 text-violet-700' },
-  pending_review: { label: '待審核', dot: 'bg-sky-500', chip: 'bg-sky-50 text-sky-700' },
-  shortlisted: { label: '已入選', dot: 'bg-emerald-500', chip: 'bg-emerald-50 text-emerald-700' },
-  in_negotiation: { label: '洽談中', dot: 'bg-indigo-500', chip: 'bg-indigo-50 text-indigo-700' },
-  contracted: { label: '已簽約', dot: 'bg-teal-600', chip: 'bg-teal-50 text-teal-700' },
-  incubating: { label: '孵化中', dot: 'bg-cyan-500', chip: 'bg-cyan-50 text-cyan-700' },
-  watching: { label: '持續觀察', dot: 'bg-amber-500', chip: 'bg-amber-50 text-amber-700' },
-  passed: { label: '已略過', dot: 'bg-neutral-400', chip: 'bg-neutral-100 text-neutral-500' },
-  disqualified: { label: '不符資格', dot: 'bg-red-500', chip: 'bg-red-50 text-red-600' },
+  scoring: { label: '評分中', dot: 'bg-clay-400', chip: 'bg-clay-50 text-clay-700' },
+  pending_review: { label: '待審核', dot: 'bg-[#7d97ad]', chip: 'bg-[#eaeff4] text-[#4a5b6b]' },
+  shortlisted: { label: '已入選', dot: 'bg-sage-500', chip: 'bg-sage-100 text-sage-800' },
+  in_negotiation: { label: '洽談中', dot: 'bg-[#8b81a8]', chip: 'bg-[#edeaf3] text-[#5d5468]' },
+  contracted: { label: '已簽約', dot: 'bg-sage-700', chip: 'bg-sage-100 text-sage-900' },
+  incubating: { label: '孵化中', dot: 'bg-[#c2a94e]', chip: 'bg-[#f2ead3] text-[#79662e]' },
+  watching: { label: '持續觀察', dot: 'bg-clay-500', chip: 'bg-clay-50 text-clay-700' },
+  passed: { label: '已略過', dot: 'bg-stone-400', chip: 'bg-oat-200 text-stone-500' },
+  disqualified: { label: '不符資格', dot: 'bg-brick-500', chip: 'bg-brick-50 text-brick-700' },
 }
 
 // 團隊決策可選的狀態（不含 scoring — 那是系統暫時狀態）

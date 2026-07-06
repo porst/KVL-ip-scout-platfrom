@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase.js'
-import { RATING_ORDER, RATING_META, STATUS_META } from '../lib/constants.js'
-import { RatingBadge, StatusChip, Tag } from '../components/Badges.jsx'
+import { RATING_ORDER, RATING_META, STATUS_META, ANCHOR_META } from '../lib/constants.js'
+import { RatingBadge, StatusChip, AnchorBadge } from '../components/Badges.jsx'
+import { Avatar } from '../components/Avatar.jsx'
+import { Card } from '../components/ui/card.jsx'
 
 const SORTS = {
   score_desc: { label: '分數：高 → 低' },
@@ -24,12 +26,12 @@ function sortRows(rows, sortKey) {
 
 function FilterSelect({ label, value, onChange, options, allOption = true }) {
   return (
-    <label className="flex items-center gap-1.5 text-sm">
-      <span className="shrink-0 text-neutral-500">{label}</span>
+    <label className="flex items-center gap-2 text-sm">
+      <span className="shrink-0 text-stone-400">{label}</span>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-sm text-neutral-800 focus:border-neutral-400 focus:outline-none"
+        className="rounded-xl border border-oat-300 bg-oat-50 px-2.5 py-2 text-sm text-stone-700 focus:border-sage-400 focus:outline-none"
       >
         {allOption && <option value="">全部</option>}
         {options.map(([val, text]) => (
@@ -102,7 +104,7 @@ export default function CandidateWall() {
     () =>
       [...new Set(rows.map((r) => r.ip_anchor_type).filter(Boolean))]
         .sort()
-        .map((v) => [v, v]),
+        .map((v) => [v, ANCHOR_META[v]?.label ? `${v} ${ANCHOR_META[v].label}` : v]),
     [rows]
   )
   const sourceOptions = useMemo(
@@ -121,7 +123,7 @@ export default function CandidateWall() {
 
   return (
     <div>
-      <div className="mb-5 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-xl border border-neutral-200 bg-white p-3">
+      <Card className="mb-8 flex flex-wrap items-center gap-x-5 gap-y-3 rounded-2xl p-4">
         <FilterSelect
           label="評級"
           value={filters.rating}
@@ -155,49 +157,46 @@ export default function CandidateWall() {
             allOption={false}
           />
         </div>
-      </div>
+      </Card>
 
-      {loading && <p className="py-16 text-center text-sm text-neutral-400">載入中…</p>}
+      {loading && <p className="py-20 text-center text-sm text-stone-400">載入中…</p>}
       {error && (
-        <p className="py-16 text-center text-sm text-red-500">讀取失敗：{error}</p>
+        <p className="py-20 text-center text-sm text-brick-600">讀取失敗：{error}</p>
       )}
       {!loading && !error && visible.length === 0 && (
-        <p className="py-16 text-center text-sm text-neutral-400">
-          沒有符合條件的候選人。
-        </p>
+        <p className="py-20 text-center text-sm text-stone-400">沒有符合條件的候選人。</p>
       )}
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
         {visible.map((c) => (
-          <Link
-            key={c.id}
-            to={`/candidate/${c.id}`}
-            className="group rounded-xl border border-neutral-200 bg-white p-4 transition hover:border-neutral-300 hover:shadow-sm"
-          >
-            <div className="mb-2 flex items-start justify-between gap-2">
-              <div className="min-w-0">
-                <h2 className="truncate text-base font-semibold text-neutral-900 group-hover:underline">
-                  {c.name || c.handle_ig || '（未命名）'}
-                </h2>
-                <p className="truncate text-xs text-neutral-400">
-                  {c.handle_ig ? `@${String(c.handle_ig).replace(/^@/, '')}` : ''}
-                  {c.country ? ` · ${c.country}` : ''}
-                </p>
-              </div>
-              <div className="shrink-0 text-right">
-                <div className="text-xl font-bold tabular-nums text-neutral-900">
-                  {c.composite_score ?? '–'}
+          <Link key={c.id} to={`/candidate/${c.id}`} className="group">
+            <Card className="h-full p-5 transition-all group-hover:-translate-y-0.5 group-hover:border-sage-300 group-hover:shadow-[0_4px_16px_rgba(60,50,35,0.08)]">
+              <div className="mb-4 flex items-start gap-3.5">
+                <Avatar handle={c.handle_ig} name={c.name} className="h-12 w-12 text-sm" />
+                <div className="min-w-0 flex-1">
+                  <h2 className="truncate font-display text-base font-semibold text-stone-900">
+                    {c.name || c.handle_ig || '（未命名）'}
+                  </h2>
+                  <p className="truncate text-xs text-stone-400">
+                    {c.handle_ig ? `@${String(c.handle_ig).replace(/^@/, '')}` : ''}
+                    {c.country ? ` · ${c.country}` : ''}
+                  </p>
                 </div>
-                <div className="text-[10px] uppercase tracking-wide text-neutral-400">
-                  score
+                <div className="shrink-0 text-right">
+                  <div className="font-display text-2xl font-bold tabular-nums text-sage-700">
+                    {c.composite_score ?? '–'}
+                  </div>
+                  <div className="text-[10px] uppercase tracking-wider text-stone-400">
+                    score
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="flex flex-wrap items-center gap-1.5">
-              <RatingBadge rating={c.rating} />
-              <StatusChip status={c.status} />
-              {c.ip_anchor_type && <Tag>{c.ip_anchor_type}</Tag>}
-            </div>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <RatingBadge rating={c.rating} />
+                <StatusChip status={c.status} />
+                <AnchorBadge type={c.ip_anchor_type} />
+              </div>
+            </Card>
           </Link>
         ))}
       </div>

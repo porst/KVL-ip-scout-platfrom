@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase.js'
+import { Card } from '../components/ui/card.jsx'
+import { Button } from '../components/ui/button.jsx'
 
 // 基本驗證：IG handle 允許字母數字、句點、底線，1–30 字元（IG 官方限制）
 function normalizeHandle(raw) {
@@ -15,6 +17,9 @@ function normalizeHandle(raw) {
 function isValidHandle(h) {
   return /^[A-Za-z0-9._]{1,30}$/.test(h)
 }
+
+const inputCls =
+  'w-full rounded-xl border border-oat-300 bg-oat-50 px-3 py-2.5 text-sm text-stone-800 placeholder:text-stone-300 focus:border-sage-400 focus:outline-none'
 
 export default function AddCandidate() {
   const [form, setForm] = useState({ handle: '', links: '', notes: '', addedBy: '' })
@@ -132,99 +137,98 @@ export default function AddCandidate() {
 
   return (
     <div className="mx-auto max-w-xl">
-      <h1 className="mb-1 text-xl font-bold tracking-tight">手動加入候選人</h1>
-      <p className="mb-5 text-sm text-neutral-400">
+      <h1 className="mb-1.5 font-display text-2xl font-bold tracking-tight text-stone-900">
+        手動加入候選人
+      </h1>
+      <p className="mb-6 text-sm text-stone-400">
         送出後系統會自動觸發 AI 評分，完成後出現在候選牆。
       </p>
 
-      <form
-        onSubmit={onSubmit}
-        className="space-y-4 rounded-xl border border-neutral-200 bg-white p-4 sm:p-6"
-      >
-        <label className="block">
-          <span className="mb-1 block text-sm font-medium text-neutral-700">
-            IG handle *
-          </span>
-          <input
-            type="text"
-            value={form.handle}
-            onChange={(e) => setForm((f) => ({ ...f, handle: e.target.value }))}
-            placeholder="@illustrator 或貼 IG 個人頁網址"
-            className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm focus:border-neutral-400 focus:outline-none"
-          />
-          {errors.handle && <p className="mt-1 text-xs text-red-500">{errors.handle}</p>}
-        </label>
+      <Card className="p-5 sm:p-7">
+        <form onSubmit={onSubmit} className="space-y-5">
+          <label className="block">
+            <span className="mb-1.5 block text-sm font-medium text-stone-700">
+              IG handle *
+            </span>
+            <input
+              type="text"
+              value={form.handle}
+              onChange={(e) => setForm((f) => ({ ...f, handle: e.target.value }))}
+              placeholder="@illustrator 或貼 IG 個人頁網址"
+              className={inputCls}
+            />
+            {errors.handle && <p className="mt-1.5 text-xs text-brick-600">{errors.handle}</p>}
+          </label>
 
-        <label className="block">
-          <span className="mb-1 block text-sm font-medium text-neutral-700">
-            其他連結（作品集、Behance、個人網站…）
-          </span>
-          <textarea
-            value={form.links}
-            onChange={(e) => setForm((f) => ({ ...f, links: e.target.value }))}
-            rows={2}
-            placeholder="一行一個連結"
-            className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm focus:border-neutral-400 focus:outline-none"
-          />
-          {errors.links && <p className="mt-1 text-xs text-red-500">{errors.links}</p>}
-        </label>
+          <label className="block">
+            <span className="mb-1.5 block text-sm font-medium text-stone-700">
+              其他連結（作品集、Behance、個人網站…）
+            </span>
+            <textarea
+              value={form.links}
+              onChange={(e) => setForm((f) => ({ ...f, links: e.target.value }))}
+              rows={2}
+              placeholder="一行一個連結"
+              className={inputCls}
+            />
+            {errors.links && <p className="mt-1.5 text-xs text-brick-600">{errors.links}</p>}
+          </label>
 
-        <label className="block">
-          <span className="mb-1 block text-sm font-medium text-neutral-700">備注</span>
-          <textarea
-            value={form.notes}
-            onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
-            rows={3}
-            placeholder="為什麼推薦這位插畫師？在哪裡發現的？"
-            className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm focus:border-neutral-400 focus:outline-none"
-          />
-          {errors.notes && <p className="mt-1 text-xs text-red-500">{errors.notes}</p>}
-        </label>
+          <label className="block">
+            <span className="mb-1.5 block text-sm font-medium text-stone-700">備注</span>
+            <textarea
+              value={form.notes}
+              onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
+              rows={3}
+              placeholder="為什麼推薦這位插畫師？在哪裡發現的？"
+              className={inputCls}
+            />
+            {errors.notes && <p className="mt-1.5 text-xs text-brick-600">{errors.notes}</p>}
+          </label>
 
-        <label className="block">
-          <span className="mb-1 block text-sm font-medium text-neutral-700">
-            你的名字 *
-          </span>
-          <input
-            type="text"
-            value={form.addedBy}
-            onChange={(e) => setForm((f) => ({ ...f, addedBy: e.target.value }))}
-            maxLength={50}
-            placeholder="加入者名字"
-            className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm focus:border-neutral-400 focus:outline-none"
-          />
-          {errors.addedBy && <p className="mt-1 text-xs text-red-500">{errors.addedBy}</p>}
-        </label>
+          <label className="block">
+            <span className="mb-1.5 block text-sm font-medium text-stone-700">
+              你的名字 *
+            </span>
+            <input
+              type="text"
+              value={form.addedBy}
+              onChange={(e) => setForm((f) => ({ ...f, addedBy: e.target.value }))}
+              maxLength={50}
+              placeholder="加入者名字"
+              className={inputCls}
+            />
+            {errors.addedBy && (
+              <p className="mt-1.5 text-xs text-brick-600">{errors.addedBy}</p>
+            )}
+          </label>
 
-        {errors.submit && (
-          <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">
-            {errors.submit}
-          </p>
-        )}
+          {errors.submit && (
+            <p className="rounded-xl bg-brick-50 px-3.5 py-2.5 text-sm text-brick-600">
+              {errors.submit}
+            </p>
+          )}
 
-        <button
-          type="submit"
-          disabled={submitting}
-          className="w-full rounded-lg bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-700 disabled:opacity-50"
-        >
-          {submitting ? '送出中…' : '送出並觸發評分'}
-        </button>
-      </form>
+          <Button type="submit" disabled={submitting} className="w-full" size="lg">
+            {submitting ? '送出中…' : '送出並觸發評分'}
+          </Button>
+        </form>
+      </Card>
 
       {result && (
         <div
-          className={`mt-4 rounded-xl border p-4 text-sm ${
+          className={`mt-5 rounded-2xl border p-5 text-sm ${
             result.phase === 'done'
-              ? 'border-emerald-200 bg-emerald-50 text-emerald-800'
+              ? 'border-sage-200 bg-sage-50 text-sage-800'
               : result.phase === 'trigger_failed'
-              ? 'border-amber-300 bg-amber-50 text-amber-800'
-              : 'border-violet-200 bg-violet-50 text-violet-800'
+              ? 'border-clay-200 bg-clay-50 text-clay-700'
+              : 'border-oat-300 bg-oat-50 text-stone-600'
           }`}
         >
           {result.phase === 'scoring' && (
             <>
-              <p className="font-medium">✓ 已加入，AI 評分中…</p>
-              <p className="mt-1 text-xs opacity-70">
+              <p className="font-medium text-clay-600">✓ 已加入，AI 評分中…</p>
+              <p className="mt-1 text-xs text-stone-400">
                 評分完成後會自動更新（通常需要幾分鐘），你可以先回候選牆或繼續加入其他人。
               </p>
             </>
