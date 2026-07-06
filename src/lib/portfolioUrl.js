@@ -1,6 +1,6 @@
-// candidates 表目前沒有專屬的「連結」欄位，這裡採盡力而為策略：
-// 先看是否有明確的連結型欄位（未來若加了 links/website 等欄位可直接被讀到），
-// 否則從既有的文字描述欄位裡擷取第一個看起來像網址的字串。
+// 優先讀 candidates.links（加入表單「其他連結」寫入的欄位）；
+// 其他欄位名稱是防呆備援。都沒有的話，退回從既有文字描述欄位
+// 擷取第一個看起來像網址的字串。
 const URL_FIELD_CANDIDATES = ['links', 'portfolio_url', 'website', 'other_links', 'link']
 const TEXT_FIELD_CANDIDATES = [
   'sample_work_description',

@@ -87,6 +87,7 @@ export default function AddCandidate() {
       .from('candidates')
       .insert({
         handle_ig: handle,
+        links: form.links.trim() || null,
         status: 'scoring',
         source: 'manual',
         added_by: form.addedBy.trim(),
