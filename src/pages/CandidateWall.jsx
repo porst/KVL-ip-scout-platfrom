@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase.js'
 import { RATING_ORDER, RATING_META, STATUS_META, ANCHOR_META } from '../lib/constants.js'
 import { RatingBadge, StatusChip, AnchorBadge } from '../components/Badges.jsx'
 import { Avatar } from '../components/Avatar.jsx'
+import { getPortfolioUrl } from '../lib/portfolioUrl.js'
 import { Card } from '../components/ui/card.jsx'
 
 const SORTS = {
@@ -172,7 +173,13 @@ export default function CandidateWall() {
           <Link key={c.id} to={`/candidate/${c.id}`} className="group">
             <Card className="h-full p-5 transition-all group-hover:-translate-y-0.5 group-hover:border-sage-300 group-hover:shadow-[0_4px_16px_rgba(60,50,35,0.08)]">
               <div className="mb-4 flex items-start gap-3.5">
-                <Avatar handle={c.handle_ig} name={c.name} className="h-12 w-12 text-sm" />
+                <Avatar
+                  handle={c.handle_ig}
+                  name={c.name}
+                  portfolioUrl={getPortfolioUrl(c)}
+                  mshotsWidth={120}
+                  className="h-12 w-12 text-sm"
+                />
                 <div className="min-w-0 flex-1">
                   <h2 className="truncate font-display text-base font-semibold text-stone-900">
                     {c.name || c.handle_ig || '（未命名）'}

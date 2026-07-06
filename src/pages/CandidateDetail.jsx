@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase.js'
 import { DIMENSIONS, DECISION_STATUSES, STATUS_META } from '../lib/constants.js'
 import { RatingBadge, StatusChip, AnchorBadge } from '../components/Badges.jsx'
 import { Avatar } from '../components/Avatar.jsx'
+import { getPortfolioUrl } from '../lib/portfolioUrl.js'
 import { Card } from '../components/ui/card.jsx'
 import { Button } from '../components/ui/button.jsx'
 import {
@@ -206,7 +207,13 @@ export default function CandidateDetail() {
       {/* 基本資訊 header */}
       <Card className="p-5 sm:p-7">
         <div className="flex flex-wrap items-start gap-4 sm:gap-5">
-          <Avatar handle={c.handle_ig} name={c.name} className="h-16 w-16 text-lg sm:h-20 sm:w-20 sm:text-xl" />
+          <Avatar
+            handle={c.handle_ig}
+            name={c.name}
+            portfolioUrl={getPortfolioUrl(c)}
+            mshotsWidth={320}
+            className="h-16 w-16 text-lg sm:h-20 sm:w-20 sm:text-xl"
+          />
           <div className="min-w-0 flex-1">
             <h1 className="font-display text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl">
               {c.name || c.handle_ig || '（未命名）'}
